@@ -16,7 +16,8 @@ public class Services {
 		try (Connection conn = DriverManager.getConnection(url, "Lorick2", "postgresql");
 				PreparedStatement stmt = conn.prepareStatement(
 						"INSERT INTO client(lastname, firstname, gender, fav_book) VALUES(?, ?, ?, ?)",
-						Statement.RETURN_GENERATED_KEYS)) {
+						Statement.RETURN_GENERATED_KEYS);
+				ResultSet generatedKeys = stmt.getGeneratedKeys()) {
 
 			stmt.setString(1, client.getLastname());
 			stmt.setString(2, client.getFirstname());
@@ -24,7 +25,7 @@ public class Services {
 			stmt.setObject(4, client.getFav_book(), java.sql.Types.INTEGER);
 			stmt.executeUpdate();
 
-			ResultSet generatedKeys = stmt.getGeneratedKeys();
+			//ResultSet generatedKeys = stmt.getGeneratedKeys();
 			generatedKeys.next();
 			client.setId(generatedKeys.getInt("id"));
 
@@ -39,13 +40,14 @@ public class Services {
 
 		try (Connection conn = DriverManager.getConnection(url, "Lorick2", "postgresql");
 				PreparedStatement stmt = conn.prepareStatement("INSERT INTO book(title, author) VALUES(?, ?)",
-						Statement.RETURN_GENERATED_KEYS)) {
+						Statement.RETURN_GENERATED_KEYS);
+				ResultSet generatedKeys = stmt.getGeneratedKeys()) {
 
 			stmt.setString(1, book.getTitle());
 			stmt.setString(2, book.getAuthor());
 			stmt.executeUpdate();
 
-			ResultSet generatedKeys = stmt.getGeneratedKeys();
+			//ResultSet generatedKeys = stmt.getGeneratedKeys();
 			generatedKeys.next();
 			book.setId(generatedKeys.getInt("id"));
 
@@ -76,9 +78,10 @@ public class Services {
 
 		try (Connection conn = DriverManager.getConnection(url, "Lorick2", "postgresql");
 				PreparedStatement stmt = conn.prepareStatement("SELECT lastname, firstname, gender from client as C\r\n"
-						+ "join buyBy as BB on C.id = BB.id_client\r\n" + "where BB.id_book = ?")) {
+						+ "join buyBy as BB on C.id = BB.id_client\r\n" + "where BB.id_book = ?");
+				ResultSet resultSet = stmt.executeQuery()) {
 			stmt.setInt(1, book.getId());
-			ResultSet resultSet = stmt.executeQuery();
+			//ResultSet resultSet = stmt.executeQuery();
 			String result = "\n";
 			while (resultSet.next()) {
 				result += resultSet.getString("lastname");
@@ -98,9 +101,10 @@ public class Services {
 
 		try (Connection conn = DriverManager.getConnection(url, "Lorick2", "postgresql");
 				PreparedStatement stmt = conn.prepareStatement("SELECT title, author from book as B\r\n"
-						+ "join buyBy as BB on B.id = BB.id_book\r\n" + "where BB.id_client = ?")) {
+						+ "join buyBy as BB on B.id = BB.id_book\r\n" + "where BB.id_client = ?");
+				ResultSet resultSet = stmt.executeQuery()) {
 			stmt.setInt(1, client.getId());
-			ResultSet resultSet = stmt.executeQuery();
+			//ResultSet resultSet = stmt.executeQuery();
 			String result = "\n";
 			while (resultSet.next()) {
 				result += resultSet.getString("title");
@@ -119,8 +123,9 @@ public class Services {
 		try (Connection conn = DriverManager.getConnection(url, "Lorick2", "postgresql");
 				PreparedStatement stmt = conn.prepareStatement(
 						"SELECT DISTINCT BB.id_client, C.lastname, C.firstname, C.gender from buyBy as BB\r\n"
-								+ "join client as C on C.id = BB.id_client\r\n" + "order by BB.id_client asc")) {
-			ResultSet resultSet = stmt.executeQuery();
+								+ "join client as C on C.id = BB.id_client\r\n" + "order by BB.id_client asc");
+				ResultSet resultSet = stmt.executeQuery()) {
+			//ResultSet resultSet = stmt.executeQuery();
 
 			String result = "\n";
 			while (resultSet.next()) {
