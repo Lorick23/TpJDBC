@@ -4,18 +4,29 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Services {
 
-	public static void addClient(Client client) {
+	public static void addClient(Client client) throws SQLException {
 		String url = "jdbc:postgresql://localhost:5432/TPJDBC";
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		
+//		try (Connection conn = DriverManager.getConnection(url, "Lorick2", "postgresql");
+//				PreparedStatement stmt = conn.prepareStatement(
+//						"INSERT INTO client(lastname, firstname, gender, fav_book) VALUES(?, ?, ?, ?)",
+//						Statement.RETURN_GENERATED_KEYS)) {
+		try {
 
-		try (Connection conn = DriverManager.getConnection(url, "Lorick2", "postgresql");
-				PreparedStatement stmt = conn.prepareStatement(
-						"INSERT INTO client(lastname, firstname, gender, fav_book) VALUES(?, ?, ?, ?)",
-						Statement.RETURN_GENERATED_KEYS)) {
+			 conn = DriverManager.getConnection(url, "Lorick2", "postgresql");
+			 stmt = conn.prepareStatement(
+					"INSERT INTO client(lastname, firstname, gender, fav_book) VALUES(?, ?, ?, ?)",
+					Statement.RETURN_GENERATED_KEYS);
+
 			stmt.setString(1, client.getLastname());
 			stmt.setString(2, client.getFirstname());
 			stmt.setString(3, client.getGender().name());
@@ -28,15 +39,26 @@ public class Services {
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+		}finally {
+			conn.close();
+			stmt.close();
 		}
 	}
 
 	public static void addBook(Book book) {
 		String url = "jdbc:postgresql://localhost:5432/TPJDBC";
+		
+//		Connection conn = null;
+//		PreparedStatement stmt = null;
 
 		try (Connection conn = DriverManager.getConnection(url, "Lorick2", "postgresql");
 				PreparedStatement stmt = conn.prepareStatement("INSERT INTO book(title, author) VALUES(?, ?)",
 						Statement.RETURN_GENERATED_KEYS)) {
+//		try {
+//			 conn = DriverManager.getConnection(url, "Lorick2", "postgresql");
+//			 stmt = conn.prepareStatement("INSERT INTO book(title, author) VALUES(?, ?)",
+//					Statement.RETURN_GENERATED_KEYS);
+
 			stmt.setString(1, book.getTitle());
 			stmt.setString(2, book.getAuthor());
 			stmt.executeUpdate();
