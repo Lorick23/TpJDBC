@@ -41,7 +41,9 @@ public class Services {
 		} catch (Exception e) {
 			LOGGER.trace(e.getMessage());
 		}finally {
-			generatedKeys.close();
+			if(generatedKeys != null) {
+				generatedKeys.close();
+			}
 		}
 	}
 
@@ -64,7 +66,9 @@ public class Services {
 		} catch (Exception e) {
 			LOGGER.trace(e.getMessage());
 		} finally {
-			generatedKeys.close();
+			if(generatedKeys != null) {
+				generatedKeys.close();
+			}
 		}
 	}
 
@@ -106,7 +110,9 @@ public class Services {
 		} catch (Exception e) {
 			LOGGER.trace(e.getMessage());
 		} finally {
-			resultSet.close();
+			if(resultSet != null) {
+				resultSet.close();
+			}
 		}
 		return null;
 	}
@@ -131,7 +137,9 @@ public class Services {
 		} catch (Exception e) {
 			LOGGER.trace(e.getMessage());
 		} finally {
-			resultSet.close();
+			if(resultSet != null) {
+				resultSet.close();
+			}
 		}
 		return null;
 	}
@@ -157,7 +165,9 @@ public class Services {
 		} catch (Exception e) {
 			LOGGER.trace(e.getMessage());
 		} finally {
-			resultSet.close();
+			if(resultSet != null) {
+				resultSet.close();
+			}
 		}
 		return null;
 	}
