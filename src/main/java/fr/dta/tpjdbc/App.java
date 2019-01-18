@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
  */
 public class App {
 	
-	private static Logger logger = LoggerFactory.getLogger(App.class);
+	private static Logger LOGGER = LoggerFactory.getLogger(App.class);
 	
 	public static void main(String[] args) throws SQLException {
 
@@ -52,9 +52,9 @@ public class App {
 			Services.Buy(bookC, clientA);
 			Services.Buy(bookA, clientB);
 			
-			logger.info(Services.getClientFromBook(bookA));
-			logger.info(Services.getBookFromClient(clientA));
-			logger.info(Services.getClientsWhichPaid());
+			LOGGER.info(Services.getClientFromBook(bookA));
+			LOGGER.info(Services.getBookFromClient(clientA));
+			LOGGER.info(Services.getClientsWhichPaid());
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
