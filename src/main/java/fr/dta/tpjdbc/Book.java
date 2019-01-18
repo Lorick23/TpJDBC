@@ -1,4 +1,4 @@
-package fr.dta.TpJDBC;
+package fr.dta.tpjdbc;
 
 public class Book {
 
@@ -9,7 +9,6 @@ public class Book {
 	public Book(String title, String author) {
 		this.title = title;
 		this.author = author;
-		// Book.books.add(this);
 	}
 
 	public String getAuthor() {

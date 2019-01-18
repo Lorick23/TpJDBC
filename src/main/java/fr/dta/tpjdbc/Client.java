@@ -1,4 +1,4 @@
-package fr.dta.TpJDBC;
+package fr.dta.tpjdbc;
 
 
 public class Client {
@@ -7,22 +7,20 @@ public class Client {
 	private String lastname;
 	private String firstname;
 	private Gender gender;
-	private Integer fav_book;
+	private Integer favBook;
 
 
 	public Client(String lastname, String firstname, Gender gender) {
 		this.lastname = lastname;
 		this.firstname = firstname;
 		this.gender = gender;
-		//Client.clients.add(this);
 	}
 
-	public Client(String lastname, String firstname, Gender gender, Integer fav_book) {
+	public Client(String lastname, String firstname, Gender gender, Integer favBook) {
 		this.lastname = lastname;
 		this.firstname = firstname;
 		this.gender = gender;
-		this.fav_book = fav_book;
-		//Client.clients.add(this);
+		this.favBook = favBook;
 	}
 
 
@@ -50,12 +48,12 @@ public class Client {
 		this.gender = gender;
 	}
 
-	public Integer getFav_book() {
-		return fav_book;
+	public Integer getFavBook() {
+		return favBook;
 	}
 
-	public void setFav_book(Integer fav_book) {
-		this.fav_book = fav_book;
+	public void setFavBook(Integer favBook) {
+		this.favBook = favBook;
 	}
 
 	public int getId() {
@@ -69,7 +67,7 @@ public class Client {
 	@Override
 	public String toString() {
 		return "Client [id=" + id + ", lastname=" + lastname + ", firstname=" + firstname + ", gender=" + gender
-				+ ", fav_book=" + fav_book + "]";
+				+ ", fav_book=" + favBook + "]";
 	}
 	
 }

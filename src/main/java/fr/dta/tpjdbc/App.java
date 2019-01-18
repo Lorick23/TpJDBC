@@ -1,17 +1,27 @@
-package fr.dta.TpJDBC;
+package fr.dta.tpjdbc;
 
 import java.sql.*;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+
+
 
 /**
  * Hello world!
  *
  */
 public class App {
+	
+	private static Logger logger = LoggerFactory.getLogger(App.class);
+	
 	public static void main(String[] args) throws SQLException {
 
-		String url = "jdbc:postgresql://localhost:5432/TPJDBC";
+		//String url = "jdbc:postgresql://localhost:5432/TPJDBC";
 
-		try (Connection conn = DriverManager.getConnection(url, "Lorick2", "postgresql");
+		try (Connection conn = DriverManager.getConnection(Services.url, "Lorick2", "postgresql");
 				Statement stmt = conn.createStatement()) {
 			stmt.executeUpdate("DROP TABLE IF EXISTS buyBy cascade");
 			stmt.executeUpdate("DROP TABLE IF EXISTS book cascade");
@@ -21,7 +31,7 @@ public class App {
 					"CREATE TABLE book(id serial PRIMARY KEY NOT NULL, title varchar(255) NOT NULL, author varchar(255) NOT NULL)");
 
 			stmt.executeUpdate(
-					"CREATE TABLE client(id serial PRIMARY KEY NOT NULL, lastname varchar(255) NOT NULL, firstname varchar(255) NOT NULL, gender varchar(1) NOT NULL, fav_book INTEGER)");
+					"CREATE TABLE client(id serial PRIMARY KEY NOT NULL, lastname varchar(255) NOT NULL, firstname varchar(255) NOT NULL, gender varchar(1) NOT NULL, favBook INTEGER)");
 
 			stmt.executeUpdate(
 					"CREATE TABLE buyBy(id_book INT NOT NULL, id_client INT NOT NULL, PRIMARY KEY(id_client, id_book), FOREIGN KEY (id_client) references client(id), FOREIGN KEY (id_book) references book(id))");
@@ -37,15 +47,15 @@ public class App {
 			Services.addClient(clientA);
 			Client clientB = new Client("Payen", "Marine", Gender.F, 2);
 			Services.addClient(clientB);
-
+			
 			Services.Buy(bookA, clientA);
 			Services.Buy(bookC, clientA);
 			Services.Buy(bookA, clientB);
-
-			System.out.println(Services.getClientFromBook(bookA));
-			System.out.println(Services.getBookFromClient(clientA));
-			System.out.println(Services.getClientsWhichPaid());
-
+			
+			logger.info(Services.getClientFromBook(bookA));
+			logger.info(Services.getBookFromClient(clientA));
+			logger.info(Services.getClientsWhichPaid());
+			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
