@@ -6,14 +6,10 @@ public enum Gender {
 	private String genderDesc;
 
 	Gender(String genderDesc) {
-		this.setGender(genderDesc);
+		this.genderDesc = genderDesc;
 	}
 
 	public String getGender() {
 		return genderDesc;
-	}
-
-	public void setGender(String genderDesc) {
-		this.genderDesc = genderDesc;
 	}
 }

@@ -15,11 +15,9 @@ import org.slf4j.LoggerFactory;
  */
 public class App {
 	
-	private static Logger LOGGER = LoggerFactory.getLogger(App.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
 	
 	public static void main(String[] args) throws SQLException {
-
-		//String url = "jdbc:postgresql://localhost:5432/TPJDBC";
 
 		try (Connection conn = DriverManager.getConnection(Services.url, "Lorick2", "postgresql");
 				Statement stmt = conn.createStatement()) {
@@ -57,7 +55,7 @@ public class App {
 			LOGGER.info(Services.getClientsWhichPaid());
 			
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			LOGGER.trace(e.getMessage());
 		}
 	}
 }
