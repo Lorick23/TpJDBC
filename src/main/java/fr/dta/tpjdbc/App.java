@@ -19,7 +19,7 @@ public class App {
 	
 	public static void main(String[] args) throws SQLException {
 
-		try (Connection conn = DriverManager.getConnection(Services.url, "Lorick2", "postgresql");
+		try (Connection conn = DriverManager.getConnection(Services.URL, Services.USER, Services.PSWD);
 				Statement stmt = conn.createStatement()) {
 			stmt.executeUpdate("DROP TABLE IF EXISTS buyBy cascade");
 			stmt.executeUpdate("DROP TABLE IF EXISTS book cascade");

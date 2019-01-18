@@ -12,7 +12,10 @@ import org.slf4j.LoggerFactory;
 
 public class Services {
 
-	static String url = "jdbc:postgresql://localhost:5432/TPJDBC";
+	static final String URL = "jdbc:postgresql://localhost:5432/TPJDBC";
+	static final String USER = "Lorick2";
+	static final String PSWD = "postgresql";
+	
 	private static final Logger LOGGER = LoggerFactory.getLogger(Services.class);
 
 	private Services() {
@@ -23,7 +26,7 @@ public class Services {
 		
 		ResultSet generatedKeys = null;
 		
-		try (Connection conn = DriverManager.getConnection(url, "Lorick2", "postgresql");
+		try (Connection conn = DriverManager.getConnection(URL, USER, PSWD);
 				PreparedStatement stmt = conn.prepareStatement(
 						"INSERT INTO client(lastname, firstname, gender, favBook) VALUES(?, ?, ?, ?)",
 						Statement.RETURN_GENERATED_KEYS)) {
@@ -51,7 +54,7 @@ public class Services {
 		
 		ResultSet generatedKeys = null;
 		
-		try (Connection conn = DriverManager.getConnection(url, "Lorick2", "postgresql");
+		try (Connection conn = DriverManager.getConnection(URL, USER, PSWD);
 				PreparedStatement stmt = conn.prepareStatement("INSERT INTO book(title, author) VALUES(?, ?)",
 						Statement.RETURN_GENERATED_KEYS)) {
 
@@ -74,7 +77,7 @@ public class Services {
 
 	public static void Buy(Book book, Client client) {
 
-		try (Connection conn = DriverManager.getConnection(url, "Lorick2", "postgresql");
+		try (Connection conn = DriverManager.getConnection(URL, USER, PSWD);
 				PreparedStatement stmt = conn.prepareStatement("INSERT INTO buyBy(id_book, id_client) VALUES(?, ?)")) {
 			stmt.setInt(1, book.getId());
 			stmt.setInt(2, client.getId());
@@ -92,15 +95,14 @@ public class Services {
 		
 		ResultSet resultSet = null;
 
-		try (Connection conn = DriverManager.getConnection(url, "Lorick2", "postgresql");
+		try (Connection conn = DriverManager.getConnection(URL, USER, PSWD);
 				PreparedStatement stmt = conn.prepareStatement("SELECT lastname, firstname, gender from client as C\r\n"
 						+ "join buyBy as BB on C.id = BB.id_client\r\n" + "where BB.id_book = ?")) {
 			stmt.setInt(1, book.getId());
 
 			resultSet = stmt.executeQuery();
 
-			StringBuffer sb = new StringBuffer();
-			sb.append("\n");
+			StringBuilder sb = new StringBuilder("\n");
 			while (resultSet.next()) {
 				sb.append(resultSet.getString("lastname") + " " + resultSet.getString("firstname") + " "
 						+ resultSet.getString("gender") + "\n");
@@ -121,14 +123,14 @@ public class Services {
 
 		ResultSet resultSet = null;
 		
-		try (Connection conn = DriverManager.getConnection(url, "Lorick2", "postgresql");
+		try (Connection conn = DriverManager.getConnection(URL, USER, PSWD);
 				PreparedStatement stmt = conn.prepareStatement("SELECT title, author from book as B\r\n"
 						+ "join buyBy as BB on B.id = BB.id_book\r\n" + "where BB.id_client = ?")) {
 
 			stmt.setInt(1, client.getId());
 
 			resultSet = stmt.executeQuery();
-			StringBuffer sb = new StringBuffer("\n");
+			StringBuilder sb = new StringBuilder("\n");
 			while (resultSet.next()) {
 				sb.append(resultSet.getString("title") + " - " + resultSet.getString("author") + "\n");
 			}
@@ -148,14 +150,13 @@ public class Services {
 		
 		ResultSet resultSet = null;
 
-		try (Connection conn = DriverManager.getConnection(url, "Lorick2", "postgresql");
+		try (Connection conn = DriverManager.getConnection(URL, USER, PSWD);
 				PreparedStatement stmt = conn.prepareStatement(
 						"SELECT DISTINCT BB.id_client, C.lastname, C.firstname, C.gender from buyBy as BB\r\n"
 								+ "join client as C on C.id = BB.id_client\r\n" + "order by BB.id_client asc")) {
 
 			resultSet = stmt.executeQuery();
-			StringBuffer sb = new StringBuffer();
-			sb.append("\n");
+			StringBuilder sb = new StringBuilder("\n");
 			while (resultSet.next()) {
 
 				sb.append(resultSet.getString("id_client") + " - " + resultSet.getString("lastname") + " "
