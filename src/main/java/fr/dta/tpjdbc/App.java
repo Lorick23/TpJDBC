@@ -46,9 +46,9 @@ public class App {
 			Client clientB = new Client("Payen", "Marine", Gender.F, 2);
 			Services.addClient(clientB);
 			
-			Services.Buy(bookA, clientA);
-			Services.Buy(bookC, clientA);
-			Services.Buy(bookA, clientB);
+			Services.buy(bookA, clientA);
+			Services.buy(bookC, clientA);
+			Services.buy(bookA, clientB);
 			
 			LOGGER.info(Services.getClientFromBook(bookA));
 			LOGGER.info(Services.getBookFromClient(clientA));

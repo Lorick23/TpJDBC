@@ -75,7 +75,7 @@ public class Services {
 		}
 	}
 
-	public static void Buy(Book book, Client client) {
+	public static void buy(Book book, Client client) {
 
 		try (Connection conn = DriverManager.getConnection(URL, USER, PSWD);
 				PreparedStatement stmt = conn.prepareStatement("INSERT INTO buyBy(id_book, id_client) VALUES(?, ?)")) {
